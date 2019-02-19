@@ -1,6 +1,5 @@
 function LinkedList() {
     this.head = null;
-    this.tail = null;
     this.length = 0;
     this.min = null;
   }
@@ -14,16 +13,8 @@ var MinStack = function() {
     return new LinkedList();
 };
 
-
 LinkedList.prototype.push = function(x) {
-
-    var node = new Node(x, this.head);
-
-    if (this.length == 0){
-        this.tail = node;
-    }
-
-    this.head = node;
+    this.head = new Node(x, this.head);
     this.length++;
 
     if (this.min == null || this.min.value >= x){
@@ -36,12 +27,10 @@ LinkedList.prototype.pop = function() {
     this.length--;
     if (this.head != null && this.min != null && this.head.value === this.min.value){
         if (this.min.next != null){
-            console.log('-- ' + this.min.value + ' -- ' + this.head.value + ' -- ' + this.min.next.value);
             this.min = new Node(this.min.next.value, this.min.next.next);
         }else{
             this.min = null;
         }
-        
     }
     this.head = this.head.next;
 };
