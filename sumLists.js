@@ -21,13 +21,6 @@ class Node {
     }
 }
 
-class NodeSum {
-    constructor(node, carry) {
-        this.node = node;
-        this.carry = carry;
-    }
-}
-
 function printLinkedList(head) {
     while (head != null) {
         console.log(head.value);
