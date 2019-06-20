@@ -1,0 +1,161 @@
+/*Animal Shelter: An animal shelter, which holds only dogs and cats, operates on a strictly"first in, first out" basis. People must adopt either the"oldest" (based on arrival time) of all animals at the shelter, or they can select whether they would prefer a dog or a cat (and will receive the oldest animal of that type). They cannot select which specific animal they would like. Create the data structures to maintain this system and implement operations such as enqueue, dequeueAny, dequeueDog, and dequeueCat. You may use the built-in Linked list data structure. */
+class Animal {
+    constructor(type, name) {
+        this.type = type;
+        this.name = name;
+        this.next = null;
+    }
+}
+
+class AnimalShelter {
+    constructor() {
+        this.topCat = null;
+        this.topDog = null;
+        this.top = null;
+    }
+
+    enqueue(animal) {
+        if (this.top == null) {
+            this.top = animal;
+        } else {
+            var head = this.top;
+            while (head.next != null) {
+                head = head.next;
+            }
+            head.next = animal;
+        }
+        var animalCopy = new Animal(animal.type, animal.name);
+        if (animalCopy.type == 'cat') {
+            if (this.topCat == null) {
+                this.topCat = animalCopy;
+            } else {
+                var head = this.topCat;
+                while (head.next != null) {
+                    head = head.next;
+                }
+                head.next = animalCopy;
+            }
+        } else {
+            if (this.topDog == null) {
+                this.topDog = animalCopy;
+            } else {
+                var head = this.topDog;
+                while (head.next != null) {
+                    head = head.next;
+                }
+                head.next = animalCopy;
+            }
+        }
+    }
+
+    dequeueAny() {
+        if (this.top != null) {
+            console.log(this.top.name + ' got a new home.');
+            if (this.top.type == 'cat') {
+                this.top = this.top.next;
+                this.topCat = this.topCat.next;
+            } else {
+                this.top = this.top.next;
+                this.topDog = this.topDog.next;
+            }
+        }
+    }
+
+    dequeueCat() {
+        if (this.topCat != null) {
+            console.log(this.topCat.name + ' got a new home.');
+            this.topCat = this.topCat.next;
+            if (this.top.type == 'cat'){
+                this.top = this.top.next;
+            }else{
+                var head = this.top;
+                while(head.next != null){
+                    if (head.next.type == 'cat'){
+                        head.next = head.next.next;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    dequeueDog() {
+        if (this.topDog != null) {
+            console.log(this.topDog.name + ' got a new home.');
+            this.topDog = this.topDog.next;
+            if (this.top.type == 'dog'){
+                this.top = this.top.next;
+            }else{
+                var head = this.top;
+                while(head.next != null){
+                    if (head.next.type == 'dog'){
+                        head.next = head.next.next;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    peekCat() {
+        if (this.topCat != null) {
+            return this.topCat.name;
+        }
+        return 'no animal available';
+    }
+
+    peekDog() {
+        if (this.topDog != null) {
+            return this.topDog.name;
+        }
+        return 'no animal available';
+    }
+
+    peek() {
+        if (this.top != null) {
+            return this.top.name;
+        }
+        return 'no animal available';
+    }
+}
+
+var animalShelter = new AnimalShelter();
+var cat1 = new Animal('cat', 'Meggy');
+var cat2 = new Animal('cat', 'Lua');
+var dog1 = new Animal('dog', 'Samira');
+var dog2 = new Animal('dog', 'Chocolate');
+
+
+animalShelter.enqueue(dog1);
+animalShelter.enqueue(cat1);
+animalShelter.enqueue(dog2);
+animalShelter.enqueue(cat2);
+
+console.log('top: ' + animalShelter.peek());
+console.log('top cat: ' + animalShelter.peekCat());
+console.log('top dog: ' + animalShelter.peekDog());
+
+animalShelter.dequeueCat();
+
+
+console.log('top: ' + animalShelter.peek());
+console.log('top cat: ' + animalShelter.peekCat());
+console.log('top dog: ' + animalShelter.peekDog());
+
+animalShelter.dequeueDog();
+
+console.log('top: ' + animalShelter.peek());
+console.log('top cat: ' + animalShelter.peekCat());
+console.log('top dog: ' + animalShelter.peekDog());
+
+animalShelter.dequeueAny();
+
+console.log('top: ' + animalShelter.peek());
+console.log('top cat: ' + animalShelter.peekCat());
+console.log('top dog: ' + animalShelter.peekDog());
+
+animalShelter.dequeueAny();
+
+console.log('top: ' + animalShelter.peek());
+console.log('top cat: ' + animalShelter.peekCat());
+console.log('top dog: ' + animalShelter.peekDog());
